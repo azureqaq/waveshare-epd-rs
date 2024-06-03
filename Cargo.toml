@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = ["waveshare_epd_core"]
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+unreachable_pub = "warn"
+rust_2018_idioms = "warn"
+unused = "allow"              # dev
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["AzureQAQ <azureqaq@gmail.com>"]
+repository = "https://github.com/azureqaq/waveshare-epd-rs"
+homepage = "https://github.com/azureqaq/waveshare-epd-rs"
