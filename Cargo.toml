@@ -1,12 +1,12 @@
 [workspace]
 resolver = "2"
-members = ["waveshare_epd_core"]
+members = ["waveshare_epd", "waveshare_epd_core"]
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
 unreachable_pub = "warn"
 rust_2018_idioms = "warn"
-unused = "allow"              # dev
+unused = "allow"          # dev
 
 [workspace.package]
 version = "0.1.0"
