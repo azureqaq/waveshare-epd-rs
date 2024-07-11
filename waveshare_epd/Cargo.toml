@@ -11,3 +11,18 @@ homepage.workspace = true
 workspace = true
 
 [dependencies]
+anyhow = "1"
+waveshare_epd_core = { path = "../waveshare_epd_core" }
+embedded-graphics-core = { workspace = true }
+linux-embedded-hal = { version = "0.4.0", default-features = false, optional = true }
+
+[dev-dependencies]
+embedded-graphics = "0.8.1"
+
+[features]
+default = ["epd5in79"]
+epd5in79 = ["linux-embedded-hal/spi", "linux-embedded-hal/gpio_cdev"]
+
+[[example]]
+name = "epd5in79"
+required-features = ["epd5in79"]
