@@ -1,3 +1,33 @@
+//! Implement the driver for **epd5in79**.
+//!
+//! This screen supports two colors ([`BinaryColor`], [`Gray2`]).
+//! This driver supports automatic color conversion.
+//!
+//! # Examples
+//! ```no_run
+//! # use waveshare_epd::epd5in79::Epd5in79Impl;
+//! let mut epd_impl = Epd5in79Impl::default();
+//! let mut epd_gray = epd_impl.as_gray2();
+//! // Draw some pixels...
+//! epd_gray.display_gray2().unwrap();
+//!
+//! // When you need to switch to another color's driver,
+//! // you must explicitly drop the previous mutable reference.
+//! // Alternatively, you can create a scope(`{}`) to have it automatically dropped.
+//! drop(epd_gray);
+//!
+//! // When switching drivers, the buffer will automatically undergo color mapping.
+//! let mut epd_binary = epd_impl.as_binary();
+//! // Draw some pixels...
+//! epd_binary.display_binary_full().unwrap();
+//! // Draw some pixels...
+//! epd_binary.display_binary_fast().unwrap();
+//!
+//! // When `epd_impl` goes out of scope, it will automatically enter deep sleep mode,
+//! // at this point, any errors will be ignored,
+//! // and you can explicitly call `deepsleep()` to enter deep sleep mode.
+//! ```
+
 use std::{
     convert::Infallible,
     fmt::Debug,
@@ -42,6 +72,7 @@ impl Debug for Epd5in79Impl {
 }
 
 impl Default for Epd5in79Impl {
+    /// Use default [`PinDefinition`] and `/dev/spidev0.0` `/dev/gpiochip0`.
     fn default() -> Self {
         Self::new_with_pindefinition(PinDefinition::DEFAULT, "/dev/spidev0.0", "/dev/gpiochip0")
             .unwrap()

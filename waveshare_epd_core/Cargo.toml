@@ -10,8 +10,6 @@ homepage.workspace = true
 [lints]
 workspace = true
 
-
 [dependencies]
-embedded-graphics-core = { workspace = true }
 embedded-hal = { workspace = true }
 thiserror = { workspace = true }

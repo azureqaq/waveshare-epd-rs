@@ -1,3 +1,13 @@
+//! Defined a common SPI interface.
+//!
+//! Considering generality, this interface uses [embedded-hal](https://docs.rs/embedded-hal/latest/embedded_hal/).
+//!
+//! This also requires additional configuration of certain pins to ensure correct behavior.
+//!
+//! # Conventions:
+//! - `dc_pin`: Low level for command, high level for data
+//! - `cs_pin`: Low level for active (ACTIVE_LOW)
+
 use std::{
     fmt::Debug,
     marker::PhantomData,
@@ -11,6 +21,7 @@ use embedded_hal::{
     spi::SpiDevice,
 };
 
+/// A common SPI interface uses [embedded-hal](https://docs.rs/embedded-hal/latest/embedded_hal/).
 pub struct SpiInterface<Spi, I, O, D, E> {
     spi: Spi,
     rst_pin: O,
@@ -170,6 +181,7 @@ pub struct PinDefinition {
 }
 
 impl PinDefinition {
+    /// Default without `cs_pin`.
     pub const DEFAULT: PinDefinition = PinDefinition::new(17, 25, None, 24, 18);
     pub const DEFAULT_WITH_CS: PinDefinition = PinDefinition::new(17, 25, Some(8), 24, 18);
 
@@ -191,6 +203,7 @@ impl PinDefinition {
 }
 
 impl Default for PinDefinition {
+    /// Default without `cs_pin`.
     fn default() -> Self {
         Self::DEFAULT
     }
