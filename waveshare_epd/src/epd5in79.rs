@@ -373,6 +373,10 @@ impl<'a, C> Epd5in79<'a, C> {
         Ok(())
     }
 
+    pub fn power_on_dur(&self) -> Option<Duration> {
+        self.inner.power_on_dur()
+    }
+
     fn set_address(&mut self) -> Result<(), anyhow::Error> {
         self.inner.command_data(0x11, [0x01])?;
 
