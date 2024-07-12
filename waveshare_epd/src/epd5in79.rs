@@ -248,7 +248,6 @@ impl Epd5in79Impl {
     }
 
     fn set_binary(&mut self, Pixel(point, color): Pixel<BinaryColor>) {
-        debug_assert!(matches!(self.state.color_in_buf, ColorInBuf::Binary));
         if !is_point_in_screen(point) {
             return;
         }
@@ -271,7 +270,6 @@ impl Epd5in79Impl {
     }
 
     fn get_binary(&self, Point { x, y }: Point) -> Option<BinaryColor> {
-        debug_assert!(matches!(self.state.color_in_buf, ColorInBuf::Binary));
         if !is_point_in_screen(Point::new(x, y)) {
             return None;
         }
@@ -291,7 +289,6 @@ impl Epd5in79Impl {
     }
 
     fn set_gray(&mut self, Pixel(point, color): Pixel<Gray2>) {
-        debug_assert!(matches!(self.state.color_in_buf, ColorInBuf::Gray));
         if !is_point_in_screen(point) {
             return;
         }
@@ -316,7 +313,6 @@ impl Epd5in79Impl {
     }
 
     fn get_gray(&self, Point { x, y }: Point) -> Option<Gray2> {
-        debug_assert!(matches!(self.state.color_in_buf, ColorInBuf::Gray));
         if !is_point_in_screen(Point::new(x, y)) {
             return None;
         }
