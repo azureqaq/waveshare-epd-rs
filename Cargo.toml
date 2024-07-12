@@ -11,13 +11,6 @@ homepage = "https://github.com/azureqaq/waveshare-epd-rs"
 resolver = "2"
 members = ["waveshare_epd", "waveshare_epd_core"]
 
-[profile.release]
-opt-level = 3
-lto = "fat"
-codegen-units = 1
-panic = "abort"
-strip = "symbols"
-
 [workspace.lints.rust]
 unsafe_code = "forbid"
 # unused = "allow"            # dev
