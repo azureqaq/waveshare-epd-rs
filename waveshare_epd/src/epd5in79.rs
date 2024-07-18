@@ -278,13 +278,13 @@ impl Epd5in79Impl {
             let buf_index = 50 * y + x / 8;
             let offset = 7 - (x % 8) as u8;
             let value = self.buffer0[buf_index as usize];
-            Some(get_binary_value(offset, value))
+            Some(get_binary_from_value(offset, value))
         } else {
             // slave
             let buf_index = 50 * y + (x - 49 * 8) / 8;
             let offset = 7 - ((x - 49 * 8) % 8) as u8;
             let value = self.buffer1[buf_index as usize];
-            Some(get_binary_value(offset, value))
+            Some(get_binary_from_value(offset, value))
         }
     }
 
@@ -323,14 +323,14 @@ impl Epd5in79Impl {
             let offset = 7 - (x % 8) as u8;
             let bw_value = self.buffer0[buf_index as usize];
             let r_value = self.buffer2[buf_index as usize];
-            Some(get_gray_value(offset, bw_value, r_value))
+            Some(get_gray_from_values(offset, bw_value, r_value))
         } else {
             // slave
             let buf_index = 50 * y + (x - 49 * 8) / 8;
             let offset = 7 - ((x - 49 * 8) % 8) as u8;
             let bw_value = self.buffer1[buf_index as usize];
             let r_value = self.buffer3[buf_index as usize];
-            Some(get_gray_value(offset, bw_value, r_value))
+            Some(get_gray_from_values(offset, bw_value, r_value))
         }
     }
 }
@@ -746,7 +746,7 @@ fn set_gray_value(color: Gray2, offset: u8, bw_value: &mut u8, r_value: &mut u8)
     }
 }
 
-fn get_binary_value(offset: u8, value: u8) -> BinaryColor {
+fn get_binary_from_value(offset: u8, value: u8) -> BinaryColor {
     if value & 1 << offset != 0 {
         BinaryColor::On
     } else {
@@ -754,7 +754,7 @@ fn get_binary_value(offset: u8, value: u8) -> BinaryColor {
     }
 }
 
-fn get_gray_value(offset: u8, bw_value: u8, r_value: u8) -> Gray2 {
+fn get_gray_from_values(offset: u8, bw_value: u8, r_value: u8) -> Gray2 {
     match (bw_value & 1 << offset != 0, r_value & 1 << offset != 0) {
         (true, true) => Gray2::WHITE,
         (false, true) => Gray2::new(2),
