@@ -161,8 +161,27 @@ impl Epd5in79Impl {
         }
     }
 
+    pub fn as_binary_with(
+        &mut self,
+        f: impl Fn(Gray2) -> BinaryColor,
+    ) -> Epd5in79<'_, BinaryColor> {
+        self.mapping_to_binary(f);
+        Epd5in79 {
+            inner: self,
+            color: PhantomData,
+        }
+    }
+
     pub fn as_gray2(&mut self) -> Epd5in79<'_, Gray2> {
         self.mapping_to_gray2(Gray2::from);
+        Epd5in79 {
+            inner: self,
+            color: PhantomData,
+        }
+    }
+
+    pub fn as_gray2_with(&mut self, f: impl Fn(BinaryColor) -> Gray2) -> Epd5in79<'_, Gray2> {
+        self.mapping_to_gray2(f);
         Epd5in79 {
             inner: self,
             color: PhantomData,
