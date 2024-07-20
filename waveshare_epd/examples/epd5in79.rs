@@ -23,6 +23,8 @@ fn main() {
             .draw_styled(&style, &mut epd_bin)
             .unwrap();
 
+        epd_bin.deep_sleep().unwrap();
+
         epd_bin.display_binary_full().unwrap();
 
         sleep(Duration::from_secs(3));

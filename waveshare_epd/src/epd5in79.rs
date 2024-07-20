@@ -154,11 +154,7 @@ impl Epd5in79Impl {
     }
 
     pub fn as_binary(&mut self) -> Epd5in79<'_, BinaryColor> {
-        self.mapping_to_binary(BinaryColor::from);
-        Epd5in79 {
-            inner: self,
-            color: PhantomData,
-        }
+        self.as_binary_with(BinaryColor::from)
     }
 
     pub fn as_binary_with(
@@ -173,11 +169,7 @@ impl Epd5in79Impl {
     }
 
     pub fn as_gray2(&mut self) -> Epd5in79<'_, Gray2> {
-        self.mapping_to_gray2(Gray2::from);
-        Epd5in79 {
-            inner: self,
-            color: PhantomData,
-        }
+        self.as_gray2_with(Gray2::from)
     }
 
     pub fn as_gray2_with(&mut self, f: impl Fn(BinaryColor) -> Gray2) -> Epd5in79<'_, Gray2> {
@@ -382,16 +374,21 @@ impl<'a> GetPixel for Epd5in79<'a, Gray2> {
     }
 }
 
+impl<'a, C> std::ops::Deref for Epd5in79<'a, C> {
+    type Target = Epd5in79Impl;
+
+    fn deref(&self) -> &Self::Target {
+        self.inner
+    }
+}
+
+impl<'a, C> std::ops::DerefMut for Epd5in79<'a, C> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        self.inner
+    }
+}
+
 impl<'a, C> Epd5in79<'a, C> {
-    pub fn deep_sleep(&mut self) -> Result<(), anyhow::Error> {
-        self.inner.deep_sleep()?;
-        Ok(())
-    }
-
-    pub fn power_on_dur(&self) -> Option<Duration> {
-        self.inner.power_on_dur()
-    }
-
     fn set_address(&mut self) -> Result<(), anyhow::Error> {
         self.inner.command_data(0x11, [0x01])?;
 
